@@ -18,7 +18,11 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch } from 'vue'
+import {
+  reactive, ref, computed, watch,
+  onBeforeMount, onMounted, onBeforeUnmount, onUnmounted,
+  onActivated, onDeactivated, onBeforeUpdate, onUpdated
+} from 'vue'
 
 const appTitle = 'My OK App'
 const counter = ref(0),
@@ -29,11 +33,11 @@ const counterData = reactive({
   title: 'My Counter'
 })
 
-watch(()=>counterData.counter, (newCount, oldCount)=>{
-console.log('oldCount', oldCount)
-console.log('newCount', newCount)
+watch(() => counterData.counter, (newCount, oldCount) => {
+  console.log('oldCount', oldCount)
+  console.log('newCount', newCount)
 
-if(newCount === 20) alert('sdffsfsf')
+  if (newCount === 20) alert('sdffsfsf')
 })
 
 const oddOrEven = computed(() => {
@@ -51,6 +55,46 @@ const increaseCounter = (amount, eventObject) => {
 const decreaseCounter = amount => {
   counterData.counter -= amount
 }
+
+onBeforeMount(() => {
+  console.log('onBeforeMount')
+})
+
+onBeforeMount(() => {
+  console.log('onBeforeMount2')
+})
+
+onMounted(() => {
+  console.log('onMounted')
+})
+
+onMounted(() => {
+  console.log('onMounted')
+})
+
+onBeforeUnmount(() => {
+  console.log('onBeforeUnmount')
+})
+
+onUnmounted(() => {
+  console.log('onUnmounted')
+})
+
+onActivated(() => {
+  console.log('onActivated')
+})
+
+onDeactivated(() => {
+  console.log('onDeactivated')
+})
+
+onBeforeUpdate(()=>{
+  console.log('onBeforeUpdated')
+})
+
+onUpdated(()=>{
+  console.log('onUpdated')
+})
 </script>
 
 
@@ -118,9 +162,17 @@ export default {
     }
   },
   watch: {
-    count(newCount, oldCount){
-      if(newCount == 20) alert('asdasdasda')
+    count(newCount, oldCount) {
+      if (newCount == 20) alert('asdasdasda')
     }
+  },
+  mounted() {
+    // do stuff when component is loaded
+    console.log('mounted')
+  },
+  unmounted() {
+    // do stuff when component is unloaded
+    console.log('unmounted')
   }
 }
 </script> -->

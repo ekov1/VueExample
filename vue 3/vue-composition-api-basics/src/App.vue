@@ -9,6 +9,12 @@ import { RouterLink, RouterView } from 'vue-router'
   </nav>
 
   <RouterView />
+  
+  <!-- <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view> -->
 </template>
 
 <style scoped>
