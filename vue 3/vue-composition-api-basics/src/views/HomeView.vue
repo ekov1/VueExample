@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref, computed, watch } from 'vue'
 
 const appTitle = 'My OK App'
 const counter = ref(0),
@@ -29,8 +29,15 @@ const counterData = reactive({
   title: 'My Counter'
 })
 
-const oddOrEven = computed(()=>{
-  if(counterData.counter % 2 == 0){
+watch(()=>counterData.counter, (newCount, oldCount)=>{
+console.log('oldCount', oldCount)
+console.log('newCount', newCount)
+
+if(newCount === 20) alert('sdffsfsf')
+})
+
+const oddOrEven = computed(() => {
+  if (counterData.counter % 2 == 0) {
     return 'Even'
   }
   return 'Odd'
@@ -96,12 +103,23 @@ export default {
       counter: 0
     }
   },
-  methods:{
-    increaseCounter(){
+  methods: {
+    increaseCounter() {
       this.counter++;
     },
-    decreaseCounter(){
+    decreaseCounter() {
       this.counter--;
+    }
+  },
+  computed: {
+    myComputedProperty() {
+      if (true)
+        return 'the result'
+    }
+  },
+  watch: {
+    count(newCount, oldCount){
+      if(newCount == 20) alert('asdasdasda')
     }
   }
 }
