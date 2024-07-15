@@ -12,19 +12,31 @@
     <p>This Counter is {{ oddOrEven }}</p>
     <div class="edit">
       <h4>Edit counter title:</h4>
-      <input type="text" v-model="counterData.title">
+      <input type="text" v-model="counterData.title" v-autofocus>
     </div>
   </div>
 </template>
 
 <script setup>
+// Imports
 import {
   reactive, ref, computed, watch,
   onBeforeMount, onMounted, onBeforeUnmount, onUnmounted,
   onActivated, onDeactivated, onBeforeUpdate, onUpdated
 } from 'vue'
-
+import { vAutofocus } from '@/directives/vAutofocus';
+// App Title
 const appTitle = 'My OK App'
+
+onMounted(() => {
+  console.log('onMounted')
+})
+
+onMounted(() => {
+  console.log('onMounted2')
+})
+
+// Counter
 const counter = ref(0),
   counterTitle = ref('My Counter')
 
@@ -64,14 +76,6 @@ onBeforeMount(() => {
   console.log('onBeforeMount2')
 })
 
-onMounted(() => {
-  console.log('onMounted')
-})
-
-onMounted(() => {
-  console.log('onMounted')
-})
-
 onBeforeUnmount(() => {
   console.log('onBeforeUnmount')
 })
@@ -88,13 +92,24 @@ onDeactivated(() => {
   console.log('onDeactivated')
 })
 
-onBeforeUpdate(()=>{
+onBeforeUpdate(() => {
   console.log('onBeforeUpdated')
 })
 
-onUpdated(()=>{
+onUpdated(() => {
   console.log('onUpdated')
 })
+
+// Directives
+const vAutofocus2 = {
+  mounted: (el) => {
+    el.focus()
+  },
+  beforeMount: (el) => {
+
+  }
+}
+
 </script>
 
 
@@ -173,6 +188,13 @@ export default {
   unmounted() {
     // do stuff when component is unloaded
     console.log('unmounted')
+  },
+  directives: {
+    autofocus: {
+      mounted(el) {
+        el.focus()
+      }
+    }
   }
 }
 </script> -->
