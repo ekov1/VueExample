@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h2>{{ appTitle }}</h2>
+    <h2 ref="appTitleRef">{{ appTitle }}</h2>
     <h3>{{ counterData.title }}</h3>
     <div>
       <button @click="decreaseCounter(2)" class="btn">-2</button>
@@ -9,7 +9,7 @@
       <button @click="increaseCounter(1, $event)" class="btn">+</button>
       <button @click="increaseCounter(2)" class="btn">+2</button>
     </div>
-    <p>This Counter is {{ oddOrEven }}</p>
+    <p>with composite ->[This Counter is {{ oddOrEven }}]</p>
     <div class="edit">
       <h4>Edit counter title:</h4>
       <input type="text" v-model="counterData.title" v-autofocus>
@@ -22,18 +22,20 @@
 import {
   reactive, ref, computed, watch,
   onBeforeMount, onMounted, onBeforeUnmount, onUnmounted,
-  onActivated, onDeactivated, onBeforeUpdate, onUpdated
+  onActivated, onDeactivated, onBeforeUpdate, onUpdated,
+  nextTick // async do something when DOM is updated
 } from 'vue'
 import { vAutofocus } from '@/directives/vAutofocus';
 // App Title
 const appTitle = 'My OK App'
-
+const appTitleRef = ref(null)
 onMounted(() => {
   console.log('onMounted')
 })
 
 onMounted(() => {
-  console.log('onMounted2')
+  console.log(appTitleRef.value.style)
+  console.log(`The app title is ${ appTitleRef.value.offsetWidth} px wide!`)
 })
 
 // Counter
@@ -59,9 +61,12 @@ const oddOrEven = computed(() => {
   return 'Odd'
 })
 
-const increaseCounter = (amount, eventObject) => {
+const increaseCounter = async (amount, eventObject) => {
   console.log(eventObject)
   counterData.counter += amount
+
+  await nextTick()
+  console.log('do something when DOM is updated')
 }
 
 const decreaseCounter = amount => {
